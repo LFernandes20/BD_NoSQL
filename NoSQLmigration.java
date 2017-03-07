@@ -52,8 +52,6 @@ public class NoSQLmigration {
     static final Mongo mongoClient = new MongoClient();
     static final DB iberotrem = mongoClient.getDB("iberotrem");
     static DBCollection cliente = iberotrem.getCollection("Cliente");
-    //static DBCollection estacao = iberotrem.getCollection("Estação");
-    //static DBCollection comboio = iberotrem.getCollection("Comboio");
     static DBCollection viagem = iberotrem.getCollection("Viagem");
     static DBCollection reserva = iberotrem.getCollection("Reserva");
     
@@ -82,61 +80,6 @@ public class NoSQLmigration {
             System.out.println(e.getMessage());
         }
     }
-    
-    /*
-    public static void collectEstacoes(){
-        try {
-            Connection c = connect();
-            ResultSet rs = c.createStatement().executeQuery("SELECT * FROM Estação");
-            int i = 1;
-            while (rs.next()) {
-                String nome = rs.getString("Nome");
-                String cidade = rs.getString("Cidade");
-            
-                BasicDBObject doc_estacao = new BasicDBObject();
-                doc_estacao.put("_id", "estacao"+i);
-                doc_estacao.put("Nome", nome);
-                doc_estacao.put("Cidade", cidade);
-                estacao.insert(doc_estacao);
-                i++;
-            }
-        }
-        catch (SQLException | NullPointerException e){
-            System.out.println(e.getMessage());
-        }
-    }
-    */
-    
-    /*  
-    public static void collectComboios(){
-        try {
-            Connection c = connect();
-            ResultSet rs = c.createStatement().executeQuery("SELECT * FROM Comboio");
-            int j = 1;
-            while (rs.next()) {
-                int lugares = rs.getInt("Nr_lugares");
-            
-                BasicDBObject doc_comboio = new BasicDBObject();
-                doc_comboio.put("_id", "comboio"+j);
-                j++;
-                doc_comboio.put("Nr_lugares", lugares);
-                BasicDBObject[] lugaresC = new BasicDBObject[lugares];
-                int i = 0;
-                for (BasicDBObject obj : lugaresC) {
-                    BasicDBObject lugar = new BasicDBObject();
-                    lugar.put("Nr", i);
-                    lugaresC[i] = lugar;
-                    i++;
-                }
-                doc_comboio.put("Lugar", lugaresC);
-                comboio.insert(doc_comboio);
-            }
-        }
-        catch (SQLException | NullPointerException e){
-            System.out.println(e.getMessage());
-        }
-    }
-    */
     
     
     public static void collectViagens(){
@@ -213,7 +156,6 @@ public class NoSQLmigration {
     public static int ageCalculator(String[] dob){
         Calendar now = new GregorianCalendar();
         int age = now.get(Calendar.YEAR) - Integer.parseInt(dob[0]) - 1;
-        //System.out.println(age);
         if (now.get(Calendar.MONTH)+1 > Integer.parseInt(dob[1]))
             age++;
         else if (now.get(Calendar.MONTH) == Integer.parseInt(dob[1]))
@@ -276,8 +218,6 @@ public class NoSQLmigration {
     
     public static void main(String[] args) throws SQLException{
         collectClientes();
-        //collectEstacoes();
-        //collectComboios();
         collectViagens();
         collectReservas();
     }
